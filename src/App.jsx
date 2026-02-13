@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronRight, ChevronLeft, ChevronUp, Search, GraduationCap, Github } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -9,8 +9,20 @@ import { allSections } from './data';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedSection, setSelectedSection] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setIsSidebarOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const [selectedSection, setSelectedSection] = useState(() => {
+    const saved = localStorage.getItem('lastSectionId');
+    return saved ? allSections.find(s => String(s.id) === saved) : null;
+  });
 
   const filteredSections = allSections.filter(section =>
     section.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -19,6 +31,11 @@ function App() {
   const handlePageChange = (section) => {
     setSelectedSection(section);
     setIsSidebarOpen(false);
+    if (section) {
+      localStorage.setItem('lastSectionId', String(section.id));
+    } else {
+      localStorage.removeItem('lastSectionId');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -41,8 +58,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#0f172a] text-slate-100 flex flex-col lg:flex-row overflow-hidden font-sans">
-      
-      {/* MOBILE HEADER */}
       <header className="lg:hidden bg-[#1e293b] border-b border-slate-700 p-4 sticky top-0 z-50 flex justify-between items-center">
         <div className="flex items-center gap-2" onClick={() => handlePageChange(null)}>
           <div className="w-8 h-8"><PythonLogo /></div>
@@ -53,45 +68,32 @@ function App() {
         </button>
       </header>
 
-      {/* SIDEBAR */}
       <aside className={`fixed lg:sticky top-0 h-screen w-80 bg-[#1e293b] border-r border-slate-700 transform transition-transform duration-300 z-40 flex flex-col shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="p-6 flex-1 flex flex-col min-w-0 overflow-hidden">
           <div className="hidden lg:flex flex-col items-center justify-center mb-8 w-full cursor-pointer" onClick={() => handlePageChange(null)}>
             <div className="w-16 h-16 mb-4"><PythonLogo /></div>
             <div className="text-center">
-              <h1 className="text-2xl font-black text-white tracking-[0.2em] mb-1 uppercase">PYTHON</h1>
+              <h1 className="text-2xl font-black text-white tracking-[0.2em] mb-1 uppercase leading-none">PYTHON</h1>
               <span className="text-[10px] text-[#ffd43b] font-bold tracking-[0.3em] uppercase block">REHBERİ</span>
             </div>
           </div>
           
           <div className="relative mb-6">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-            <input 
-              type="text" 
-              placeholder="Konu ara..." 
-              className="w-full bg-[#0f172a] border border-slate-700 rounded-lg py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-[#3776ab] text-white" 
-              onChange={(e) => setSearchTerm(e.target.value)} 
-            />
+            <input type="text" placeholder="Konu ara..." className="w-full bg-[#0f172a] border border-slate-700 rounded-lg py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-[#3776ab] text-white" onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
 
           <nav className="flex-1 space-y-1 overflow-y-auto pr-2 custom-scrollbar">
             {filteredSections.map((section) => (
-              <button 
-                key={section.id} 
-                onClick={() => handlePageChange(section)} 
-                className={`w-full text-left px-4 py-3.5 rounded-xl flex items-center justify-between transition-all group ${selectedSection?.id === section.id ? 'bg-[#3776ab] text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
-              >
-                <span className="text-[14px] font-bold uppercase tracking-tight leading-tight">
-                   {String(section.id).padStart(2, '0')} - {section.title}
-                </span>
+              <button key={section.id} onClick={() => handlePageChange(section)} className={`w-full text-left px-4 py-3.5 rounded-xl flex items-center justify-between transition-all group ${selectedSection?.id === section.id ? 'bg-[#3776ab] text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>
+                <span className="text-[14px] font-bold uppercase tracking-tight leading-tight">{String(section.id).padStart(2, '0')} - {section.title}</span>
                 <ChevronRight size={16} />
               </button>
             ))}
           </nav>
 
-          {/* SIDEBAR FOOTER (IMZA) */}
           <div className="mt-4 pt-4 border-t border-slate-700/50 flex flex-col items-center gap-2">
-            <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase italic">YAVUZ BARIŞ ÖZGÜN</p>
+            <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase italic text-center leading-tight">YAVUZ BARIŞ ÖZGÜN</p>
             <a href="https://github.com/BozgunBer-2506" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#ffd43b] hover:text-white transition-colors">
               <Github size={18} />
               <span className="text-[10px] font-bold uppercase tracking-tighter">github.com/BozgunBer-2506</span>
@@ -100,18 +102,12 @@ function App() {
         </div>
       </aside>
 
-      {/* MAIN CONTENT */}
-      <main className="flex-1 overflow-y-auto h-screen bg-[#0f172a] custom-scrollbar relative">
+      <main className="flex-1 overflow-y-auto h-screen bg-[#0f172a] relative">
         {selectedSection ? (
-          <div className="p-4 lg:p-12 max-w-4xl mx-auto w-full pb-32">
+          <div className="p-5 lg:p-12 max-w-4xl mx-auto w-full pb-32">
             <article className="prose prose-invert prose-slate max-w-none">
-              <div className="mb-4 text-[#ffd43b] font-bold tracking-widest text-[10px] uppercase border-l-4 border-[#3776ab] pl-3">
-                BÖLÜM {String(selectedSection.id).padStart(2, '0')}
-              </div>
-              
-              <h1 className="text-2xl lg:text-5xl font-black text-white mb-8 uppercase tracking-tighter leading-tight">
-                {selectedSection.title}
-              </h1>
+              <div className="mb-4 text-[#ffd43b] font-bold tracking-widest text-[10px] uppercase border-l-4 border-[#3776ab] pl-3">BÖLÜM {String(selectedSection.id).padStart(2, '0')}</div>
+              <h1 className="text-3xl lg:text-5xl font-black text-white mb-8 uppercase tracking-tighter leading-tight">{selectedSection.title}</h1>
 
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
@@ -121,25 +117,15 @@ function App() {
                     const match = /language-(\w+)/.exec(className || '');
                     return !inline && match ? (
                       <div className="w-full overflow-hidden rounded-xl my-4 border border-slate-800">
-                        <SyntaxHighlighter 
-                          style={atomDark} 
-                          language={match[1]} 
-                          PreTag="div" 
-                          customStyle={{ margin: 0, padding: '16px', background: '#0d1117', fontSize: '13px' }} 
-                          {...props}
-                        >
-                          {String(children).replace(/\n$/, '')}
-                        </SyntaxHighlighter>
+                        <SyntaxHighlighter style={atomDark} language={match[1]} PreTag="div" customStyle={{ margin: 0, padding: '16px', background: '#0d1117', fontSize: '13px' }} {...props}>{String(children).replace(/\n$/, '')}</SyntaxHighlighter>
                       </div>
                     ) : (
                       <code className="bg-slate-800 text-[#ffd43b] px-1.5 py-0.5 rounded text-[13px] font-mono border border-slate-700/50" {...props}>{children}</code>
                     );
                   },
-                  h2: ({children}) => <h2 className="text-xl lg:text-2xl font-black text-white mt-10 mb-4 border-b border-slate-800 pb-2 uppercase">{children}</h2>,
-                  // MOBİL İÇİN BÜYÜTÜLEN YAZI BOYUTLARI
-                  p: ({children}) => <p className="text-slate-300 leading-relaxed mb-5 text-base lg:text-xl">{children}</p>,
-                  li: ({children}) => <li className="text-slate-300 mb-2 text-base lg:text-xl bg-slate-800/30 px-3 py-2 rounded-lg border border-slate-700/50 list-none">{children}</li>,
-
+                  h2: ({children}) => <h2 className="text-2xl lg:text-3xl font-black text-white mt-10 mb-4 border-b border-slate-800 pb-2 uppercase">{children}</h2>,
+                  p: ({children}) => <p className="text-slate-300 leading-relaxed mb-6 text-2xl lg:text-xl">{children}</p>,
+                  li: ({children}) => <li className="text-slate-300 mb-4 text-2xl lg:text-xl bg-slate-800/30 px-5 py-4 rounded-xl border border-slate-700/50 list-none">{children}</li>,
                   details: ({children}) => <details className="group bg-[#1e293b]/50 border border-slate-700 rounded-xl mb-6 overflow-hidden">{children}</details>,
                   summary: ({children}) => (
                     <summary className="flex items-center justify-between cursor-pointer px-4 py-3 font-bold text-[#ffd43b] list-none">
@@ -148,9 +134,7 @@ function App() {
                     </summary>
                   ),
                   div: ({children, ...props}) => {
-                    if (props.className === "answer-content") {
-                      return <div className="px-4 py-3 bg-[#0f172a] text-emerald-400 font-bold border-t border-slate-700/50 italic text-sm lg:text-lg">{children}</div>;
-                    }
+                    if (props.className === "answer-content") return <div className="px-4 py-3 bg-[#0f172a] text-emerald-400 font-bold border-t border-slate-700/50 italic text-2xl lg:text-lg">{children}</div>;
                     return <div {...props}>{children}</div>;
                   }
                 }}
@@ -159,49 +143,36 @@ function App() {
               </ReactMarkdown>
             </article>
 
-            {/* NAVIGASYON */}
             <div className="mt-12 pt-8 border-t border-slate-800 flex justify-between items-center">
-              <button onClick={handlePrevPage} disabled={allSections.findIndex(s => s.id === selectedSection.id) === 0} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 disabled:opacity-0">
-                <ChevronLeft size={16} /> ÖNCEKİ
-              </button>
-              <button onClick={handleNextPage} disabled={allSections.findIndex(s => s.id === selectedSection.id) === allSections.length - 1} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#ffd43b]">
-                SONRAKİ <ChevronRight size={16} />
-              </button>
+              <button onClick={handlePrevPage} disabled={allSections.findIndex(s => s.id === selectedSection.id) === 0} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 disabled:opacity-0"><ChevronLeft size={16} /> ÖNCEKİ</button>
+              <button onClick={handleNextPage} disabled={allSections.findIndex(s => s.id === selectedSection.id) === allSections.length - 1} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#ffd43b]">SONRAKİ <ChevronRight size={16} /></button>
             </div>
           </div>
         ) : (
-          /* ANASAYFA */
           <div className="flex flex-col items-center justify-center min-h-screen text-center px-4">
             <div className="w-24 h-24 lg:w-48 lg:h-48 mb-8 animate-bounce-slow"><PythonLogo /></div>
             <h2 className="text-4xl lg:text-8xl font-black text-white mb-6 tracking-tighter uppercase italic leading-none">HELLO PYTHON</h2>
             <div className="bg-[#1e293b] border border-slate-700/50 px-8 py-8 lg:px-12 lg:py-10 rounded-3xl shadow-2xl max-w-2xl relative overflow-hidden">
                <div className="absolute top-0 left-0 w-2 h-full bg-[#ffd43b]"></div>
-               <p className="text-slate-100 text-xl lg:text-4xl font-black mb-2 uppercase">Python Türkçe Rehberi</p>
-               <p className="text-slate-400 text-xs lg:text-lg font-medium opacity-80 italic">Hazırlayan: Yavuz Barış Özgün</p>
+               <p className="text-slate-100 text-xl lg:text-4xl font-black mb-4 uppercase text-center leading-tight">Python Türkçe Rehberi</p>
+               <p className="text-slate-400 text-lg font-medium opacity-80">
+                 <span className="text-[#ffd43b] uppercase tracking-widest font-bold">Menüden</span> bir konu seç ve kodlamaya başla.
+               </p>
             </div>
           </div>
         )}
 
-        {/* GO TO TOP */}
         {selectedSection && (
-          <button 
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="fixed bottom-6 right-6 bg-[#3776ab] text-white p-3 rounded-xl shadow-2xl z-50 border border-white/10"
-          >
-            <ChevronUp size={20} strokeWidth={3} />
-          </button>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="fixed bottom-6 right-6 bg-[#3776ab] text-white p-3 rounded-xl z-50 border border-white/10"><ChevronUp size={20} /></button>
         )}
       </main>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3776ab66; border-radius: 10px; }
         @keyframes bounce-slow { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-15px) rotate(3deg); } }
         .animate-bounce-slow { animation: bounce-slow 4s infinite ease-in-out; }
         summary::-webkit-details-marker { display: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3776ab66; border-radius: 10px; }
       `}} />
     </div>
   );

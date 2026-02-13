@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, ChevronLeft, ChevronUp, Search, GraduationCap } from 'lucide-react';
+import { ChevronRight, ChevronLeft, ChevronUp, Search, GraduationCap, Github } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -20,22 +20,16 @@ function App() {
     setSelectedSection(section);
     setIsSidebarOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    const mainElement = document.querySelector('main');
-    if (mainElement) mainElement.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNextPage = () => {
     const currentIndex = allSections.findIndex(s => s.id === selectedSection.id);
-    if (currentIndex < allSections.length - 1) {
-      handlePageChange(allSections[currentIndex + 1]);
-    }
+    if (currentIndex < allSections.length - 1) handlePageChange(allSections[currentIndex + 1]);
   };
 
   const handlePrevPage = () => {
     const currentIndex = allSections.findIndex(s => s.id === selectedSection.id);
-    if (currentIndex > 0) {
-      handlePageChange(allSections[currentIndex - 1]);
-    }
+    if (currentIndex > 0) handlePageChange(allSections[currentIndex - 1]);
   };
 
   const PythonLogo = () => (
@@ -54,7 +48,7 @@ function App() {
           <div className="w-8 h-8"><PythonLogo /></div>
           <span className="font-black text-white text-xs tracking-tighter uppercase">PYTHON TÜRKÇE</span>
         </div>
-        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-[#ffd43b] text-xs font-black uppercase">
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-[#ffd43b] text-xs font-black uppercase border border-[#ffd43b]/30 px-3 py-1 rounded">
           {isSidebarOpen ? 'KAPAT' : 'MENÜ'}
         </button>
       </header>
@@ -62,15 +56,11 @@ function App() {
       {/* SIDEBAR */}
       <aside className={`fixed lg:sticky top-0 h-screen w-80 bg-[#1e293b] border-r border-slate-700 transform transition-transform duration-300 z-40 flex flex-col shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="p-6 flex-1 flex flex-col min-w-0 overflow-hidden">
-          
           <div className="hidden lg:flex flex-col items-center justify-center mb-8 w-full cursor-pointer" onClick={() => handlePageChange(null)}>
-            <div className="w-16 h-16 mb-4 drop-shadow-2xl"><PythonLogo /></div>
+            <div className="w-16 h-16 mb-4"><PythonLogo /></div>
             <div className="text-center">
-              <h1 className="text-2xl font-black text-white tracking-[0.2em] mb-1 uppercase leading-none">PYTHON</h1>
+              <h1 className="text-2xl font-black text-white tracking-[0.2em] mb-1 uppercase">PYTHON</h1>
               <span className="text-[10px] text-[#ffd43b] font-bold tracking-[0.3em] uppercase block">REHBERİ</span>
-              <span className="text-[10px] text-slate-500 font-medium tracking-widest uppercase mt-3 block border-t border-slate-700/30 pt-2 italic text-center">
-                Yavuz Barış Özgün
-              </span>
             </div>
           </div>
           
@@ -79,7 +69,7 @@ function App() {
             <input 
               type="text" 
               placeholder="Konu ara..." 
-              className="w-full bg-[#0f172a] border border-slate-700 rounded-lg py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-[#3776ab] text-white transition-all" 
+              className="w-full bg-[#0f172a] border border-slate-700 rounded-lg py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-[#3776ab] text-white" 
               onChange={(e) => setSearchTerm(e.target.value)} 
             />
           </div>
@@ -94,23 +84,32 @@ function App() {
                 <span className="text-[14px] font-bold uppercase tracking-tight leading-tight">
                    {String(section.id).padStart(2, '0')} - {section.title}
                 </span>
-                <ChevronRight size={16} className={`${selectedSection?.id === section.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-40'} transition-all`} />
+                <ChevronRight size={16} />
               </button>
             ))}
           </nav>
+
+          {/* SIDEBAR FOOTER (IMZA) */}
+          <div className="mt-4 pt-4 border-t border-slate-700/50 flex flex-col items-center gap-2">
+            <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase italic">YAVUZ BARIŞ ÖZGÜN</p>
+            <a href="https://github.com/BozgunBer-2506" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#ffd43b] hover:text-white transition-colors">
+              <Github size={18} />
+              <span className="text-[10px] font-bold uppercase tracking-tighter">github.com/BozgunBer-2506</span>
+            </a>
+          </div>
         </div>
       </aside>
 
       {/* MAIN CONTENT */}
       <main className="flex-1 overflow-y-auto h-screen bg-[#0f172a] custom-scrollbar relative">
         {selectedSection ? (
-          <div className="p-6 lg:p-12 max-w-4xl mx-auto w-full pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="p-4 lg:p-12 max-w-4xl mx-auto w-full pb-32">
             <article className="prose prose-invert prose-slate max-w-none">
-              <div className="mb-6 text-[#ffd43b] font-bold tracking-widest text-xs uppercase border-l-4 border-[#3776ab] pl-4">
+              <div className="mb-4 text-[#ffd43b] font-bold tracking-widest text-[10px] uppercase border-l-4 border-[#3776ab] pl-3">
                 BÖLÜM {String(selectedSection.id).padStart(2, '0')}
               </div>
               
-              <h1 className="text-4xl lg:text-5xl font-black text-white mb-10 uppercase tracking-tighter leading-tight">
+              <h1 className="text-2xl lg:text-5xl font-black text-white mb-8 uppercase tracking-tighter leading-tight">
                 {selectedSection.title}
               </h1>
 
@@ -121,49 +120,36 @@ function App() {
                   code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '');
                     return !inline && match ? (
-                      <div className="w-full overflow-hidden rounded-2xl my-6 border border-slate-800 shadow-2xl">
+                      <div className="w-full overflow-hidden rounded-xl my-4 border border-slate-800">
                         <SyntaxHighlighter 
                           style={atomDark} 
                           language={match[1]} 
                           PreTag="div" 
-                          customStyle={{ margin: 0, padding: '24px', background: '#0d1117', fontSize: '14px' }} 
+                          customStyle={{ margin: 0, padding: '16px', background: '#0d1117', fontSize: '13px' }} 
                           {...props}
                         >
                           {String(children).replace(/\n$/, '')}
                         </SyntaxHighlighter>
                       </div>
                     ) : (
-                      <code className="bg-slate-800 text-[#ffd43b] px-2 py-0.5 rounded text-[14px] font-mono border border-slate-700/50" {...props}>{children}</code>
+                      <code className="bg-slate-800 text-[#ffd43b] px-1.5 py-0.5 rounded text-[13px] font-mono border border-slate-700/50" {...props}>{children}</code>
                     );
                   },
-                  h2: ({children}) => <h2 className="text-2xl font-black text-white mt-12 mb-6 border-b border-slate-800 pb-3 uppercase tracking-tight">{children}</h2>,
-                  p: ({children}) => <p className="text-slate-300 leading-relaxed mb-6 text-lg">{children}</p>,
-                  
-                  // ŞIKLAR İÇİN SADE TASARIM (Sadece üzerine gelince parlar)
-                  li: ({children}) => (
-                    <li className="text-slate-300 mb-3 text-lg bg-slate-800/30 px-4 py-2 rounded-lg border border-slate-700/50 hover:border-[#3776ab] hover:bg-slate-800/60 transition-all list-none select-none">
-                      {children}
-                    </li>
-                  ),
+                  h2: ({children}) => <h2 className="text-xl lg:text-2xl font-black text-white mt-10 mb-4 border-b border-slate-800 pb-2 uppercase">{children}</h2>,
+                  // MOBİL İÇİN BÜYÜTÜLEN YAZI BOYUTLARI
+                  p: ({children}) => <p className="text-slate-300 leading-relaxed mb-5 text-base lg:text-xl">{children}</p>,
+                  li: ({children}) => <li className="text-slate-300 mb-2 text-base lg:text-xl bg-slate-800/30 px-3 py-2 rounded-lg border border-slate-700/50 list-none">{children}</li>,
 
-                  // TEST CEVABI İÇİN AÇILIR KUTU
-                  details: ({children}) => (
-                    <details className="group bg-[#1e293b]/50 border border-slate-700 rounded-2xl mb-8 overflow-hidden transition-all duration-300 open:bg-[#1e293b]">
-                      {children}
-                    </details>
-                  ),
+                  details: ({children}) => <details className="group bg-[#1e293b]/50 border border-slate-700 rounded-xl mb-6 overflow-hidden">{children}</details>,
                   summary: ({children}) => (
-                    <summary className="flex items-center justify-between cursor-pointer px-6 py-4 font-bold text-[#ffd43b] hover:bg-slate-700/50 list-none transition-colors">
-                      <div className="flex items-center gap-3 italic font-black uppercase tracking-widest text-xs">
-                        <GraduationCap size={18} />
-                        <span>CEVABI GÖR</span>
-                      </div>
-                      <ChevronRight size={18} className="group-open:rotate-90 transition-transform duration-300" />
+                    <summary className="flex items-center justify-between cursor-pointer px-4 py-3 font-bold text-[#ffd43b] list-none">
+                      <div className="flex items-center gap-2 text-[11px] font-black uppercase"><GraduationCap size={16} /><span>CEVABI GÖR</span></div>
+                      <ChevronRight size={16} className="group-open:rotate-90 transition-transform" />
                     </summary>
                   ),
                   div: ({children, ...props}) => {
                     if (props.className === "answer-content") {
-                      return <div className="px-6 py-4 bg-[#0f172a] text-emerald-400 font-bold border-t border-slate-700/50 italic">{children}</div>;
+                      return <div className="px-4 py-3 bg-[#0f172a] text-emerald-400 font-bold border-t border-slate-700/50 italic text-sm lg:text-lg">{children}</div>;
                     }
                     return <div {...props}>{children}</div>;
                   }
@@ -174,61 +160,46 @@ function App() {
             </article>
 
             {/* NAVIGASYON */}
-            <div className="mt-20 pt-10 border-t border-slate-800 flex justify-between items-center">
-              <button 
-                onClick={handlePrevPage}
-                disabled={allSections.findIndex(s => s.id === selectedSection.id) === 0}
-                className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-slate-500 hover:text-[#ffd43b] disabled:opacity-0 transition-all group"
-              >
-                <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Önceki
+            <div className="mt-12 pt-8 border-t border-slate-800 flex justify-between items-center">
+              <button onClick={handlePrevPage} disabled={allSections.findIndex(s => s.id === selectedSection.id) === 0} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 disabled:opacity-0">
+                <ChevronLeft size={16} /> ÖNCEKİ
               </button>
-              
-              <button 
-                onClick={handleNextPage}
-                disabled={allSections.findIndex(s => s.id === selectedSection.id) === allSections.length - 1}
-                className="flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-[#ffd43b] hover:scale-105 transition-all group"
-              >
-                Sonraki <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              <button onClick={handleNextPage} disabled={allSections.findIndex(s => s.id === selectedSection.id) === allSections.length - 1} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#ffd43b]">
+                SONRAKİ <ChevronRight size={16} />
               </button>
             </div>
           </div>
         ) : (
           /* ANASAYFA */
-          <div className="flex flex-col items-center justify-center min-h-screen text-center px-4 animate-in fade-in duration-700">
-            <div className="w-32 h-32 lg:w-48 lg:h-48 mb-12 animate-bounce-slow"><PythonLogo /></div>
-            <h2 className="text-6xl lg:text-8xl font-black text-white mb-8 tracking-tighter uppercase italic leading-none opacity-90">Hello Python</h2>
-            <div className="bg-[#1e293b] border border-slate-700/50 px-12 py-10 rounded-[2.5rem] shadow-2xl max-w-2xl relative overflow-hidden text-center">
-               <div className="absolute top-0 left-0 w-3 h-full bg-[#ffd43b]"></div>
-               <p className="text-slate-100 text-2xl lg:text-4xl font-black tracking-tight mb-4 uppercase">Python Türkçe Rehberi</p>
-               <p className="text-slate-400 text-base lg:text-lg font-medium opacity-80">
-                 <span className="text-[#ffd43b] uppercase tracking-widest font-bold">Menüden</span> bir konu seç ve kodlamaya başla.
-               </p>
+          <div className="flex flex-col items-center justify-center min-h-screen text-center px-4">
+            <div className="w-24 h-24 lg:w-48 lg:h-48 mb-8 animate-bounce-slow"><PythonLogo /></div>
+            <h2 className="text-4xl lg:text-8xl font-black text-white mb-6 tracking-tighter uppercase italic leading-none">HELLO PYTHON</h2>
+            <div className="bg-[#1e293b] border border-slate-700/50 px-8 py-8 lg:px-12 lg:py-10 rounded-3xl shadow-2xl max-w-2xl relative overflow-hidden">
+               <div className="absolute top-0 left-0 w-2 h-full bg-[#ffd43b]"></div>
+               <p className="text-slate-100 text-xl lg:text-4xl font-black mb-2 uppercase">Python Türkçe Rehberi</p>
+               <p className="text-slate-400 text-xs lg:text-lg font-medium opacity-80 italic">Hazırlayan: Yavuz Barış Özgün</p>
             </div>
           </div>
         )}
 
+        {/* GO TO TOP */}
         {selectedSection && (
           <button 
             onClick={() => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
               document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="fixed bottom-8 right-8 bg-[#3776ab] text-white p-4 rounded-2xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-50 border border-white/10"
+            className="fixed bottom-6 right-6 bg-[#3776ab] text-white p-3 rounded-xl shadow-2xl z-50 border border-white/10"
           >
-            <ChevronUp size={24} strokeWidth={3} />
+            <ChevronUp size={20} strokeWidth={3} />
           </button>
         )}
       </main>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #3776ab66; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #3776ab; }
-        @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0) rotate(-3deg); }
-          50% { transform: translateY(-20px) rotate(3deg); }
-        }
+        @keyframes bounce-slow { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-15px) rotate(3deg); } }
         .animate-bounce-slow { animation: bounce-slow 4s infinite ease-in-out; }
         summary::-webkit-details-marker { display: none; }
       `}} />

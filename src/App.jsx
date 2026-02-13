@@ -110,35 +110,35 @@ function App() {
               <h1 className="text-3xl lg:text-5xl font-black text-white mb-8 uppercase tracking-tighter leading-tight">{selectedSection.title}</h1>
 
               <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={{
-                  code({ node, inline, className, children, ...props }) {
-                    const match = /language-(\w+)/.exec(className || '');
-                    return !inline && match ? (
-                      <div className="w-full overflow-hidden rounded-xl my-4 border border-slate-800">
-                        <SyntaxHighlighter style={atomDark} language={match[1]} PreTag="div" customStyle={{ margin: 0, padding: '16px', background: '#0d1117', fontSize: '13px' }} {...props}>{String(children).replace(/\n$/, '')}</SyntaxHighlighter>
-                      </div>
-                    ) : (
-                      <code className="bg-slate-800 text-[#ffd43b] px-1.5 py-0.5 rounded text-[13px] font-mono border border-slate-700/50" {...props}>{children}</code>
-                    );
-                  },
-                  h2: ({children}) => <h2 className="text-2xl lg:text-3xl font-black text-white mt-10 mb-4 border-b border-slate-800 pb-2 uppercase">{children}</h2>,
-                  p: ({children}) => <p className="text-slate-300 leading-relaxed mb-6 text-2xl lg:text-xl">{children}</p>,
-                  li: ({children}) => <li className="text-slate-300 mb-4 text-2xl lg:text-xl bg-slate-800/30 px-5 py-4 rounded-xl border border-slate-700/50 list-none">{children}</li>,
-                  details: ({children}) => <details className="group bg-[#1e293b]/50 border border-slate-700 rounded-xl mb-6 overflow-hidden">{children}</details>,
-                  summary: ({children}) => (
-                    <summary className="flex items-center justify-between cursor-pointer px-4 py-3 font-bold text-[#ffd43b] list-none">
-                      <div className="flex items-center gap-2 text-[11px] font-black uppercase"><GraduationCap size={16} /><span>CEVABI GÖR</span></div>
-                      <ChevronRight size={16} className="group-open:rotate-90 transition-transform" />
-                    </summary>
-                  ),
-                  div: ({children, ...props}) => {
-                    if (props.className === "answer-content") return <div className="px-4 py-3 bg-[#0f172a] text-emerald-400 font-bold border-t border-slate-700/50 italic text-2xl lg:text-lg">{children}</div>;
-                    return <div {...props}>{children}</div>;
-                  }
-                }}
-              >
+  remarkPlugins={[remarkGfm]}
+  rehypePlugins={[rehypeRaw]}
+  components={{
+    code({ node, inline, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || '');
+      return !inline && match ? (
+        <div className="w-full overflow-hidden rounded-xl my-4 border border-slate-800">
+          <SyntaxHighlighter style={atomDark} language={match[1]} PreTag="div" customStyle={{ margin: 0, padding: '16px', background: '#0d1117', fontSize: '13px' }} {...props}>{String(children).replace(/\n$/, '')}</SyntaxHighlighter>
+        </div>
+      ) : (
+        <code className="bg-slate-800 text-[#ffd43b] px-1.5 py-0.5 rounded text-[13px] font-mono border border-slate-700/50" {...props}>{children}</code>
+      );
+    },
+    h2: ({children}) => <h2 className="text-2xl lg:text-3xl font-black text-white mt-10 mb-4 border-b border-slate-800 pb-2 uppercase">{children}</h2>,
+    p: ({children}) => <p className="text-slate-300 leading-relaxed mb-6 text-base lg:text-lg">{children}</p>,
+    li: ({children}) => <li className="text-slate-300 mb-4 text-base lg:text-lg bg-slate-800/30 px-5 py-4 rounded-xl border border-slate-700/50 list-none">{children}</li>,
+    details: ({children}) => <details className="group bg-[#1e293b]/50 border border-slate-700 rounded-xl mb-6 overflow-hidden">{children}</details>,
+    summary: ({children}) => (
+      <summary className="flex items-center justify-between cursor-pointer px-4 py-3 font-bold text-[#ffd43b] list-none">
+        <div className="flex items-center gap-2 text-[11px] font-black uppercase"><GraduationCap size={16} /><span>CEVABI GÖR</span></div>
+        <ChevronRight size={16} className="group-open:rotate-90 transition-transform" />
+      </summary>
+    ),
+    div: ({children, ...props}) => {
+      if (props.className === "answer-content") return <div className="px-4 py-3 bg-[#0f172a] text-emerald-400 font-bold border-t border-slate-700/50 italic text-sm lg:text-base">{children}</div>;
+      return <div {...props}>{children}</div>;
+    }
+  }}
+>
                 {selectedSection.content}
               </ReactMarkdown>
             </article>
@@ -154,10 +154,10 @@ function App() {
             <h2 className="text-4xl lg:text-8xl font-black text-white mb-6 tracking-tighter uppercase italic leading-none">HELLO PYTHON</h2>
             <div className="bg-[#1e293b] border border-slate-700/50 px-8 py-8 lg:px-12 lg:py-10 rounded-3xl shadow-2xl max-w-2xl relative overflow-hidden">
                <div className="absolute top-0 left-0 w-2 h-full bg-[#ffd43b]"></div>
-               <p className="text-slate-100 text-xl lg:text-4xl font-black mb-4 uppercase text-center leading-tight">Python Türkçe Rehberi</p>
-               <p className="text-slate-400 text-lg font-medium opacity-80">
-                 <span className="text-[#ffd43b] uppercase tracking-widest font-bold">Menüden</span> bir konu seç ve kodlamaya başla.
-               </p>
+               <p className="text-slate-100 text-lg lg:text-2xl font-black mb-4 uppercase text-center leading-tight">Python Türkçe Rehberi</p>
+               <p className="text-slate-400 text-sm lg:text-base font-medium opacity-80">
+                <span className="text-[#ffd43b] uppercase tracking-widest font-bold">Menüden</span> bir konu seç ve kodlamaya başla.
+                </p>
             </div>
           </div>
         )}

@@ -62,12 +62,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[#0f172a] text-slate-100 flex flex-col lg:flex-row overflow-hidden font-sans">
-      <style>{`
-        .goog-logo-link, .goog-te-gadget span, .goog-te-banner-frame { display: none !important; }
-        .goog-te-gadget { color: transparent !important; font-size: 0 !important; }
-        .goog-te-combo { background-color: rgba(30,41,59,0.7) !important; color: #ffd43b !important; border: 1px solid rgba(255,212,59,0.3) !important; border-radius: 8px !important; padding: 4px 10px !important; font-size: 12px !important; outline: none !important; }
-        body { top: 0px !important; position: static !important; }
-      `}</style>
       <header className="lg:hidden bg-[#1e293b] border-b border-slate-700 p-4 sticky top-0 z-50 flex justify-between items-center">
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => handlePageChange(null)}>
           <img src={PythonLogo} alt="Python Logo" className="w-8 h-8" />
@@ -108,7 +102,6 @@ function App() {
               <Github size={18} />
               <span className="text-[10px] font-bold uppercase tracking-tighter">github.com/BozgunBer-2506</span>
             </a>
-            <div id="google_translate_element" className="mt-2" />
           </div>
         </div>
       </aside>
@@ -127,11 +120,11 @@ function App() {
                   code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '');
                     return !inline && match ? (
-                      <div translate="no" className="notranslate w-full overflow-x-auto rounded-xl my-4 border border-slate-800">
+                      <div className="w-full overflow-x-auto rounded-xl my-4 border border-slate-800">
                         <SyntaxHighlighter style={atomDark} language={match[1]} PreTag="div" customStyle={{ margin: 0, padding: '16px', background: '#0d1117', fontSize: '13px' }} {...props}>{String(children).replace(/\n$/, '')}</SyntaxHighlighter>
                       </div>
                     ) : (
-                      <code translate="no" className="notranslate bg-slate-800 text-[#ffd43b] px-1.5 py-0.5 rounded text-[13px] font-mono border border-slate-700/50" {...props}>{children}</code>
+                      <code className="bg-slate-800 text-[#ffd43b] px-1.5 py-0.5 rounded text-[13px] font-mono border border-slate-700/50" {...props}>{children}</code>
                     );
                   },
                   table: ({children}) => (

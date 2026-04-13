@@ -100,8 +100,9 @@ function App() {
             <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase italic text-center leading-tight">YAVUZ BARIŞ ÖZGÜN</p>
             <a href="https://github.com/BozgunBer-2506" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#ffd43b] hover:text-white transition-colors">
               <Github size={18} />
-              <span className="text-[10px] font-bold uppercase tracking-tighter">github.com/BozgunBer-2506</span>
+              <span className="text-[10px] font-bold uppercase tracking-tighter">The_Bozgun</span>
             </a>
+            <a href="https://thebozgun.com" target="_blank" rel="noopener noreferrer" className="text-[10px] text-slate-400 hover:text-[#ffd43b] transition-colors">thebozgun.com</a>
           </div>
         </div>
       </aside>

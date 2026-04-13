@@ -96,13 +96,11 @@ function App() {
             ))}
           </nav>
 
-          <div className="mt-4 pt-4 border-t border-slate-700/50 flex flex-col items-center gap-2">
-            <p className="text-[10px] font-bold text-slate-500 tracking-widest uppercase italic text-center leading-tight">YAVUZ BARIŞ ÖZGÜN</p>
-            <a href="https://github.com/BozgunBer-2506" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#ffd43b] hover:text-white transition-colors">
-              <Github size={18} />
-              <span className="text-[10px] font-bold uppercase tracking-tighter">The_Bozgun</span>
-            </a>
-            <a href="https://thebozgun.com" target="_blank" rel="noopener noreferrer" className="text-[10px] text-slate-400 hover:text-[#ffd43b] transition-colors">thebozgun.com</a>
+          <div className="mt-4 pt-4 border-t border-slate-700/50 text-center">
+            <a href="https://github.com/BozgunBer-2506" target="_blank" rel="noopener noreferrer" className="text-[10px] font-bold text-[#ffd43b] tracking-widest">The_Bozgun</a>
+            <br />
+            <a href="https://thebozgun.com" target="_blank" rel="noopener noreferrer" className="text-[10px] text-slate-400 hover:text-[#ffd43b] transition-colors mt-1 inline-block">thebozgun.com</a>
+            <p className="text-[10px] text-slate-600 font-bold tracking-widest mt-1">© 2026</p>
           </div>
         </div>
       </aside>

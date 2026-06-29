@@ -85,7 +85,7 @@ y3.kos()
 ## Ne Öğrendik?
 
 <div style="margin-bottom: 25px; border: 1px solid #334155; padding: 15px; border-radius: 10px;">
-<strong>Soru 1:</strong> <code>super().**init**()</code> satırını yazmayı unutursak ne olur?
+<strong>Soru 1:</strong> <code>super().__init__()</code> satırını yazmayı unutursak ne olur?
 <details style="margin-top: 10px;">
 <summary style="cursor: pointer; color: #ffd43b; font-weight: bold;">Çözümü Gör</summary>
 <div style="background: #1e293b; padding: 10px; border-radius: 5px; margin-top: 10px; color: #cbd5e1;">

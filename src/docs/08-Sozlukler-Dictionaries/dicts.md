@@ -1,6 +1,6 @@
 # Sözlükler (Dictionaries)
 
-Sözlükler, verileri **Anahtar-Değer (Key-Value)** çiftleri halinde saklayan, sırasız (Python 3.7+ sonrası sıralı gibi görünse de anahtar odaklıdır) ve değiştirilebilir bir veri yapısıdır. Gerçek hayattaki bir sözlükte kelimeyi (anahtar) arayıp anlamını (değer) bulmanıza benzer.
+Sözlükler, verileri **Anahtar-Değer (Key-Value)** çiftleri halinde saklayan ve değiştirilebilir bir veri yapısıdır. Python 3.7+ itibariyle ekleme sırası (insertion order) dil spesifikasyonunun garantili bir özelliğidir. Not: bu "ekleme sırası korunur" demektir; küçükten büyüğe gibi bir sıralama (sorted order) değildir. Gerçek hayattaki bir sözlükte kelimeyi (anahtar) arayıp anlamını (değer) bulmanıza benzer.
 
 ### 1. Sözlük Tanımlama ve Veriye Erişim
 

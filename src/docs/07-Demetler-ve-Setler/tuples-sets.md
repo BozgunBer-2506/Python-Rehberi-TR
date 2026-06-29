@@ -98,7 +98,7 @@ Hayır, bu bir <strong>integer</strong> olur. Tek elemanlı bir tuple tanımlama
 <details style="margin-top: 10px;">
 <summary style="cursor: pointer; color: #ffd43b; font-weight: bold;">Çözümü Gör</summary>
 <div style="background: #1e293b; padding: 10px; border-radius: 5px; margin-top: 10px; color: #cbd5e1;">
-Listeyi bir sete çevirerek: <code>liste = list(set(liste))</code>. Set yapısı otomatik olarak tüm tekrarları siler, sonra tekrar listeye çevirerek kullanabilirsiniz.
+Listeyi bir sete çevirerek: <code>liste = list(set(liste))</code>. Set yapısı otomatik olarak tüm tekrarları siler, sonra tekrar listeye çevirerek kullanabilirsiniz. <strong>Önemli uyarı:</strong> Bu yöntem elemanların sırasını değiştirir. Sıranın korunması gerekiyorsa Python 3.7+ dict garantisinden yararlanan <code>liste = list(dict.fromkeys(liste))</code> kullanın — hem tekrarları siler hem orijinal sırayı korur.
 </div>
 </details>
 </div>

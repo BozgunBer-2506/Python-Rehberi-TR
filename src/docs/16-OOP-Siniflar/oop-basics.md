@@ -109,11 +109,11 @@ print(p1) # Ekrana 'Oyuncu Adi: Baris' yazar.
 ## Ne Öğrendik?
 
 <div style="margin-bottom: 25px; border: 1px solid #334155; padding: 15px; border-radius: 10px;">
-<strong>Soru 1:</strong> <code>**init**</code> metodu yazmazsak ne olur?
+<strong>Soru 1:</strong> <code>__init__</code> metodu yazmazsak ne olur?
 <details style="margin-top: 10px;">
 <summary style="cursor: pointer; color: #ffd43b; font-weight: bold;">Çözümü Gör</summary>
 <div style="background: #1e293b; padding: 10px; border-radius: 5px; margin-top: 10px; color: #cbd5e1;">
-Python arka planda gizli ve boş bir <code>**init**</code> çalıştırır. Nesne oluşur ama nesneye ait özellikleri (isim, yaş gibi) baştan atayamazsınız.
+Python arka planda gizli ve boş bir <code>__init__</code> çalıştırır. Nesne oluşur ama nesneye ait özellikleri (isim, yaş gibi) baştan atayamazsınız.
 </div>
 </details>
 </div>

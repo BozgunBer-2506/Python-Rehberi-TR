@@ -31,7 +31,7 @@ toplama(100, 200)
 **Çıktı:**
 
 ```text
-Iki sayinin toplami: 400
+Iki sayinin toplami: 40
 Iki sayinin toplami: 300
 
 ```

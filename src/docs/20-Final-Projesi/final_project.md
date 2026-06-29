@@ -46,14 +46,15 @@ class Kütüphane:
                 print(f"{sira}. {kitap}")
 
     def verileri_kaydet(self):
-        with open(self.dosya_adi, "w") as f:
+        with open(self.dosya_adi, "w", encoding="utf-8") as f:
             # Nesne listesini sözlük listesine cevirip JSON'a yaziyoruz
             veri_paketi = [k.__dict__ for k in self.kitaplar]
-            json.dump(veri_paketi, f)
+            # ensure_ascii=False: Türkçe kitap/yazar adlarını okunabilir tutar
+            json.dump(veri_paketi, f, ensure_ascii=False, indent=2)
 
     def verileri_yukle(self):
         try:
-            with open(self.dosya_adi, "r") as f:
+            with open(self.dosya_adi, "r", encoding="utf-8") as f:
                 yuklenen_veri = json.load(f)
                 for k in yuklenen_veri:
                     self.kitaplar.append(Kitap(k['ad'], k['yazar'], k['sayfa']))

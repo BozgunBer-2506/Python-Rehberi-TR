@@ -12,8 +12,10 @@ Python'da bir dosyayı açmak için `open()` fonksiyonu kullanılır. Dosyayla i
 - `'w'`: Yazma (Write) - Dosya varsa içini siler, yoksa yeni oluşturur.
 - `'a'`: Ekleme (Append) - Mevcut verinin sonuna ekleme yapar.
 
+> **Not:** `open()` fonksiyonunda her zaman `encoding="utf-8"` belirtin. Belirtilmezse Python işletim sisteminin varsayılan kodlamasını kullanır; Windows'ta bu genellikle cp1252 veya cp1254 olur ve Türkçe karakterler (ş, ğ, ı, İ, ö, ü, ç) bozulur ya da `UnicodeDecodeError` alınır. Aynı kod Linux/Mac'te sorunsuz çalışsa da Windows'ta patlayabilir.
+
 ```python
-dosya = open("notlar.txt", "w")
+dosya = open("notlar.txt", "w", encoding="utf-8")
 dosya.write("Baris - Python Ogreniyor (2026)")
 dosya.close()
 
@@ -24,7 +26,7 @@ dosya.close()
 `close()` komutunu unutmak bazen dosyanın bozulmasına neden olabilir. `with` kullandığımızda, işlem bittiği an Python dosyayı bizim yerimize otomatik kapatır.
 
 ```python
-with open("notlar.txt", "r") as dosya:
+with open("notlar.txt", "r", encoding="utf-8") as dosya:
     icerik = dosya.read()
     print(icerik)
 # Burada dosya otomatik olarak kapandi bile!
@@ -36,7 +38,7 @@ with open("notlar.txt", "r") as dosya:
 Büyük dosyalarda tüm içeriği bir anda okumak yerine satır satır okumak daha mantıklıdır.
 
 ```python
-with open("ogrenciler.txt", "r") as dosya:
+with open("ogrenciler.txt", "r", encoding="utf-8") as dosya:
     for satir in dosya:
         print(f"Sıradaki satır: {satir.strip()}")
 
@@ -64,14 +66,16 @@ Modern programlamada (ve 2026 standartlarında) veriler genellikle düz metin ye
 ```python
 import json
 
-kullanici = {"ad": "Baris", "puan": 100}
+kullanici = {"ad": "Barış", "puan": 100}
 
 # Dosyaya yazma
-with open("veri.json", "w") as f:
-    json.dump(kullanici, f)
+# ensure_ascii=False: Türkçe karakterleri \uXXXX olarak escape etmez, okunabilir tutar.
+# encoding="utf-8": ensure_ascii=False ile birlikte kullanılmalıdır.
+with open("veri.json", "w", encoding="utf-8") as f:
+    json.dump(kullanici, f, ensure_ascii=False, indent=2)
 
 # Dosyadan okuma
-with open("veri.json", "r") as f:
+with open("veri.json", "r", encoding="utf-8") as f:
     data = json.load(f)
     print(data["ad"])
 

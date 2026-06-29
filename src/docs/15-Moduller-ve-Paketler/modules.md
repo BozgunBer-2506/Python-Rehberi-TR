@@ -62,7 +62,7 @@ pip install requests
 
 ```
 
-### 5. **name** == "**main**" Kavramı
+### 5. `__name__` == `"__main__"` Kavramı
 
 Bir dosyanın doğrudan mı çalıştırıldığını yoksa başka bir yerden mi çağrıldığını anlamak için kullanılır.
 

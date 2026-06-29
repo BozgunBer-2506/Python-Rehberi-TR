@@ -268,7 +268,7 @@ Bir sınıftan nesne oluşturulduğunda otomatik çalışan "yapıcı" metod han
 <details>
 <summary>Cevabı Gör</summary>
 <div class="answer-content">
-Doğru Cevap: A) **init**
+Doğru Cevap: A) `__init__`
 </div>
 </details>
 
